@@ -44,6 +44,7 @@ class havana::profile::glance::api {
     keystone_user     => 'glance',
     verbose           => hiera('openstack::verbose'),
     debug             => hiera('openstack::debug'),
+    mysql_module      => '2.2',
   }
 
   class { '::glance::notify::rabbitmq': 

@@ -3,14 +3,14 @@
 # Sets up configuration common to all neutron nodes.
 # Flags install individual services as needed
 # This follows the suggest deployment from the neutron Administrator Guide.
-class havana::common::neutron {
+class openstack::common::neutron {
   $controller_management_address = hiera('openstack::controller::address::management')
 
   $data_network = hiera('openstack::network::data')
   $data_address = ip_for_network($data_network)
 
   # neutron auth depends upon a keystone configuration
-  include ::havana::common::keystone
+  include ::openstack::common::keystone
 
   class { '::neutron':
     rabbit_host           => $controller_management_address,
@@ -35,9 +35,10 @@ class havana::common::neutron {
   class { '::neutron::server':
     auth_host           => hiera('openstack::controller::address::management'),
     auth_password       => hiera('openstack::neutron::password'),
-    database_connection => $::havana::resources::connectors::neutron,
-    enabled             => $::havana::profile::base::is_controller,
-    sync_db             => $::havana::profile::base::is_controller,
+    database_connection => $::openstack::resources::connectors::neutron,
+    enabled             => $::openstack::profile::base::is_controller,
+    sync_db             => $::openstack::profile::base::is_controller,
+    mysql_module        => '2.2',
   }
 
   if $::osfamily == 'redhat' {
