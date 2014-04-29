@@ -1,10 +1,11 @@
-class havana::role::swiftcontroller inherits ::havana::role {
-  class { '::havana::profile::firewall': }
-  class { '::havana::profile::rabbitmq': } ->
-  class { '::havana::profile::memcache': } ->
-  class { '::havana::profile::mysql': } ->
-  class { '::havana::profile::keystone': } ->
-  class { '::havana::profile::swift::proxy': }
-  class { '::havana::profile::horizon': }
-  class { '::havana::profile::auth_file': }
+class openstack::role::swiftcontroller inherits ::openstack::role {
+  class { '::openstack::profile::firewall': }
+  class { '::openstack::profile::rabbitmq': } ->
+  class { '::openstack::profile::memcache': } ->
+  class { '::openstack::profile::mysql': } ->
+  class { '::openstack::profile::keystone': } ->
+  class { '::openstack::profile::swift::proxy': }
+  class { '::openstack::profile::horizon': }
+  class { '::openstack::profile::auth_file': }
+  class { '::openstack::profile::nova::api': }
 }
