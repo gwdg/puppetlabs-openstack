@@ -1,4 +1,4 @@
-class havana::setup::cirros {
+class openstack::setup::cirros {
   glance_image { 'Cirros':
     ensure           => present,
     name             => 'Cirros',

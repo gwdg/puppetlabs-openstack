@@ -1,5 +1,5 @@
 # The profile to install an OpenStack specific mysql server
-class havana::profile::mysql {
+class openstack::profile::mysql {
 
   $management_network = hiera('openstack::network::management')
   $inferred_address = ip_for_network($management_network)

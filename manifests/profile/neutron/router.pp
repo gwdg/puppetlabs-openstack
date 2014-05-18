@@ -1,8 +1,8 @@
 # The profile to set up a neutron ovs network router
-class havana::profile::neutron::router {
+class openstack::profile::neutron::router {
   Exec { 
     path => '/usr/bin:/usr/sbin:/bin:/sbin', 
-    require => Class['::havana::profile::neutron::common'],
+    require => Class['openstack::profile::neutron::common'],
   } 
   
   ::sysctl::value { 'net.ipv4.ip_forward': 
@@ -10,8 +10,8 @@ class havana::profile::neutron::router {
   }
 
   $controller_management_address = hiera('openstack::controller::address::management')
-  include ::havana::common::neutron
-  include ::havana::common::ovs
+  include ::openstack::common::neutron
+  include ::openstack::common::ovs
 
   ### Router service installation
   class { '::neutron::agents::l3':

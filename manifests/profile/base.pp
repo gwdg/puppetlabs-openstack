@@ -1,13 +1,13 @@
 # The base profile for OpenStack. Installs the repository and ntp
-class havana::profile::base {
+class openstack::profile::base {
   # everyone also needs to be on the same clock
   class { '::ntp': }
 
   # all nodes need the OpenStack repository
-  class { '::havana::resources::repo': }
+  class { '::openstack::resources::repo': }
 
   # database connectors
-  class { '::havana::resources::connectors': }
+  class { '::openstack::resources::connectors': }
 
   # database anchor
   anchor { 'database-service': }

@@ -1,5 +1,5 @@
 # The profile for installing a single loopback storage node
-class havana::profile::swift::storage (
+class openstack::profile::swift::storage (
   $zone = undef,
 ) {
   $management_network = hiera('openstack::network::management')

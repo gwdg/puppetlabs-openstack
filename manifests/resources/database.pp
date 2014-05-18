@@ -1,4 +1,4 @@
-define havana::resources::database () {
+define openstack::resources::database () {
   class { "::${title}::db::mysql":
     user          => $title,
     password      => hiera("openstack::mysql::service_password"),

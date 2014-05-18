@@ -1,9 +1,9 @@
 # The profile for installing the Cinder API
-class havana::profile::cinder::api {
+class openstack::profile::cinder::api {
 
-  ::havana::resources::controller { 'cinder': }
-  ::havana::resources::database { 'cinder': }
-  ::havana::resources::firewall { 'Cinder API': port => '8776', }
+  openstack::resources::controller { 'cinder': }
+  openstack::resources::database { 'cinder': }
+  openstack::resources::firewall { 'Cinder API': port => '8776', }
 
   class { '::cinder::keystone::auth':
     password         => hiera('openstack::cinder::password'),
@@ -13,7 +13,7 @@ class havana::profile::cinder::api {
     region           => hiera('openstack::region'),
   }
 
-  include ::havana::common::cinder
+  include ::openstack::common::cinder
 
   class { '::cinder::api':
     keystone_password  => hiera('openstack::cinder::password'),
