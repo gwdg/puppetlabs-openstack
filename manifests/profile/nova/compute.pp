@@ -30,6 +30,24 @@ class openstack::profile::nova::compute {
     migration_support   => true,
   }
 
+  # Use NFS for VM storage (to be replaced by cinder)
+  if (hiera('openstack::production')) {
+
+    nfs::client::mount { '/var/lib/nova/instances':
+      ensure    => 'mounted',
+      server    => '10.108.115.128',
+      share     => '/ifs/cloud/production/instances',
+      require   => Package['nova-common'],
+    }
+
+  } else {
+
+    Nfs::Client::Mount <<| nfstag == 'instances' |>> {
+      ensure    => 'mounted',
+      require   => Package['nova-common'],
+    }
+  }
+
   # Not sure if this is necessary
 #  file { '/etc/libvirt/qemu.conf':
 #    ensure => present,
