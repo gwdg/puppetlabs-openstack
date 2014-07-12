@@ -28,24 +28,24 @@ class openstack::profile::neutron::router {
   }
 
   class { '::neutron::agents::dhcp':
-    debug                   => hiera('openstack::debug'),
-    enabled                 => true,
+    debug                       => hiera('openstack::debug'),
+    enabled                     => true,
 
-    use_namespaces          => true,
-    resync_interval         => hiera('openstack::neutron::dhcp_agent::resync_interval'),
+    use_namespaces              => true,
+    resync_interval             => hiera('openstack::neutron::dhcp_agent::resync_interval'),
 
     # *FIXME*: Verify if this is possible for used distro
-    dhcp_delete_namespaces  => true,
+    dhcp_delete_namespaces      => true,
   }
 
   class { '::neutron::agents::metadata':
-    auth_password => hiera('openstack::neutron::password'),
-    shared_secret => hiera('openstack::neutron::shared_secret'),
-    auth_url      => "http://${controller_management_address}:35357/v2.0",
-    debug         => hiera('openstack::debug'),
-    auth_region   => hiera('openstack::region'),
-    metadata_ip   => $controller_management_address,
-    enabled       => true,
+    auth_password               => hiera('openstack::neutron::password'),
+    shared_secret               => hiera('openstack::neutron::shared_secret'),
+    auth_url                    => "http://${controller_management_address}:35357/v2.0",
+    debug                       => hiera('openstack::debug'),
+    auth_region                 => hiera('openstack::region'),
+    metadata_ip                 => $controller_management_address,
+    enabled                     => true,
   }
 
   class { '::neutron::agents::lbaas':
