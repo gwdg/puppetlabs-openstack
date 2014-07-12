@@ -38,5 +38,5 @@ class openstack::profile::nova::compute {
 #    notify => Service['libvirt'],
 #  }
 
-  Package['libvirt'] -> File['/etc/libvirt/qemu.conf']
+#  Package['libvirt'] -> File['/etc/libvirt/qemu.conf']
 }
