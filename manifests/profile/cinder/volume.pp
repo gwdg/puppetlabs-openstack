@@ -17,8 +17,21 @@ class openstack::profile::cinder::volume {
     enabled        => true,
   }
 
-  class { '::cinder::volume::iscsi':
-    iscsi_ip_address  => $management_address,
-    volume_group      => 'cinder-volumes',
+#  class { '::cinder::volume::iscsi':
+#    iscsi_ip_address  => $management_address,
+#    volume_group      => 'cinder-volumes',
+#  }
+
+  # Use NFS backend for now
+  class { 'cinder::volume::nfs':
+
+    nfs_servers             => hiera('openstack::cinder::nfs_servers'),
+    nfs_mount_options       => undef,
+    nfs_disk_util           => undef,
+    nfs_sparsed_volumes     => true,
+    nfs_mount_point_base    => undef,
+    nfs_shares_config       => '/etc/cinder/shares.conf'
   }
+
+
 }
