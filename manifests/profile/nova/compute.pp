@@ -1,9 +1,10 @@
 # The puppet module to set up a Nova Compute node
 class openstack::profile::nova::compute {
+
   $management_network = hiera('openstack::network::management')
   $management_address = ip_for_network($management_network)
 
-  class { '::havana::common::nova':
+  class { '::compute::common::nova':
     is_compute => true,
   }
 
