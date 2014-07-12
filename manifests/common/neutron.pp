@@ -34,14 +34,15 @@ class openstack::common::neutron {
     region           => hiera('openstack::region'),
   }
 
-  class { '::neutron::server':
-    auth_host           => hiera('openstack::controller::address::management'),
-    auth_password       => hiera('openstack::neutron::password'),
-    database_connection => $::openstack::resources::connectors::neutron,
-    enabled             => $::openstack::profile::base::is_controller,
-    sync_db             => $::openstack::profile::base::is_controller,
-    mysql_module        => '2.2',
-  }
+  # Should only be needed for quantum server on controller node
+#  class { '::neutron::server':
+#    auth_host           => hiera('openstack::controller::address::management'),
+#    auth_password       => hiera('openstack::neutron::password'),
+#    database_connection => $::openstack::resources::connectors::neutron,
+#    enabled             => $::openstack::profile::base::is_controller,
+#    sync_db             => $::openstack::profile::base::is_controller,
+#    mysql_module        => '2.2',
+#  }
 
   if $::osfamily == 'redhat' {
     package { 'iproute':
