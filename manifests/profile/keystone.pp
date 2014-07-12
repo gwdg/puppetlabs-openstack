@@ -29,6 +29,16 @@ class openstack::profile::keystone {
     }
   }
 
+  # Make sure index is set on token.expire column (not sue if still necessary for Havana)
+#  exec { 'Add index to token.expire':
+#    command             => "mysql -u ${gwdg::cloud::base::keystone_db_user} -p${$gwdg::cloud::base::keystone_db_password} -e 'ALTER TABLE token ADD INDEX idx_token_expires (expires);' keystone",
+#    path                => '/usr/bin',
+#    user                => 'root',
+#    refreshonly         => true,
+#    subscribe           => Exec['keystone-manage db_sync'],
+#  }
+
+  # Setup tenants / users
   $tenants = hiera('openstack::tenants')
   $users = hiera('openstack::users')
   create_resources('openstack::resources::tenant', $tenants)
