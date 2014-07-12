@@ -21,6 +21,7 @@ class openstack::profile::neutron::router {
 
     use_namespaces          => true,
     periodic_interval       => hiera('openstack::neutron::l3_agent::periodic_interval'),
+    network_device_mtu      => hiera('openstack::neutron::l3_agent::network_device_mtu'),
   }
 
   class { '::neutron::agents::dhcp':
