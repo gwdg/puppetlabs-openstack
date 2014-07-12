@@ -14,7 +14,7 @@ class openstack::common::nova ($is_compute    = false) {
 
   # Additional options for nova
 
-  nova_config { 'DEFAULT/default_floating_pool': value => 'public' }
+  nova_config { 'DEFAULT/default_floating_pool':        value => 'public' }
 
   # Set overcommit values
   nova_config   { 'DEFAULT/cpu_allocation_ratio':       value => '15.0' }
@@ -68,7 +68,9 @@ class openstack::common::nova ($is_compute    = false) {
     vncproxy_host                 => hiera('openstack::controller::address::vnc_proxy'),
   }
 
-  class { '::nova::compute::neutron': }
+  class { '::nova::compute::neutron': 
+#    libvirt_vif_driver => 'nova.virt.libvirt.vif.LibvirtHybridOVSBridgeDriver',
+  }
 
   class { '::nova::network::neutron':
     neutron_admin_password => hiera('openstack::neutron::password'),
