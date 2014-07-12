@@ -28,10 +28,14 @@ class openstack::profile::neutron::router {
   }
 
   class { '::neutron::agents::dhcp':
-    debug           => hiera('openstack::debug'),
-    enabled         => true,
+    debug                   => hiera('openstack::debug'),
+    enabled                 => true,
 
-    use_namespaces  => true,
+    use_namespaces          => true,
+    resync_interval         => hiera('openstack::neutron::dhcp_agent::resync_interval'),
+
+    # *FIXME*: Verify if this is possible for used distro
+    dhcp_delete_namespaces  => true,
   }
 
   class { '::neutron::agents::metadata':
