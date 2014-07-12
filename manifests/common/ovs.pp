@@ -13,6 +13,9 @@ class openstack::common::ovs {
     local_ip         => $data_address,
     enabled          => true,
     tunnel_types     => ['gre',],
+
+#    firewall_driver  => 'quantum.agent.linux.iptables_firewall.OVSHybridIptablesFirewallDriver',
+#    polling_interval => 2,
   }
 
   class  { '::neutron::plugins::ovs':
