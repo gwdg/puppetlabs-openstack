@@ -9,7 +9,7 @@ class openstack::profile::nova::compute {
 
   class { '::nova::compute::libvirt':
     libvirt_type     => hiera('openstack::nova::libvirt_type'),
-    vncserver_listen => $management_address,
+    vncserver_listen => hiera('openstack::nova::vncserver_listen'),
   }
 
   file { '/etc/libvirt/qemu.conf':
