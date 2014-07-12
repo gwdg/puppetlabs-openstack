@@ -65,7 +65,7 @@ class openstack::common::nova ($is_compute    = false) {
     enabled                       => $is_compute,
     vnc_enabled                   => true,
     vncserver_proxyclient_address => $management_address,
-    vncproxy_host                 => hiera('openstack::controller::address::api'),
+    vncproxy_host                 => hiera('openstack::controller::address::vnc_proxy'),
   }
 
   class { '::nova::compute::neutron': }
