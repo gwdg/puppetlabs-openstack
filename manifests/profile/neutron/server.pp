@@ -19,5 +19,25 @@ class openstack::profile::neutron::server {
     mysql_module        => '2.2',
   }
 
+  # Quantum quota setup
+  quantum_config {
+
+    'QUOTAS/quota_driver':              value => 'quantum.db.quota_db.DbQuotaDriver';
+    'QUOTAS/quota_items':               value => 'network,subnet,port';
+
+    # Default L2 quotas
+    'QUOTAS/quota_network':             value => '1';
+    'QUOTAS/quota_subnet':              value => '1';
+    'QUOTAS/quota_port':                value => '10';
+
+    # Default L3 quotas
+    'QUOTAS/quota_router':              value => '1';
+    'QUOTAS/quota_floatingip':          value => '3';
+
+    # Default security group quotas
+    'QUOTAS/quota_security_group':      value => '10';
+    'QUOTAS/quota_security_group_rule': value => '50';
+  }
+
   Class['::neutron::db::mysql'] -> Exec['neutron-db-sync']
 }
