@@ -18,11 +18,16 @@ class openstack::profile::neutron::router {
     debug                   => hiera('openstack::debug'),
     external_network_bridge => 'br-ex',
     enabled                 => true,
+
+    use_namespaces          => true,
+    periodic_interval       => hiera('openstack::neutron::l3_agent::periodic_interval'),
   }
 
   class { '::neutron::agents::dhcp':
-    debug   => hiera('openstack::debug'),
-    enabled => true,
+    debug           => hiera('openstack::debug'),
+    enabled         => true,
+
+    use_namespaces  => true,
   }
 
   class { '::neutron::agents::metadata':
