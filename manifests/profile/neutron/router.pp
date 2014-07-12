@@ -15,13 +15,16 @@ class openstack::profile::neutron::router {
 
   ### Router service installation
   class { '::neutron::agents::l3':
-    debug                   => hiera('openstack::debug'),
-    external_network_bridge => 'br-ex',
-    enabled                 => true,
+    debug                       => hiera('openstack::debug'),
+    external_network_bridge     => 'br-ex',
+    enabled                     => true,
 
-    use_namespaces          => true,
-    periodic_interval       => hiera('openstack::neutron::l3_agent::periodic_interval'),
-    network_device_mtu      => hiera('openstack::neutron::l3_agent::network_device_mtu'),
+    use_namespaces              => true,
+    periodic_interval           => hiera('openstack::neutron::l3_agent::periodic_interval'),
+    network_device_mtu          => hiera('openstack::neutron::l3_agent::network_device_mtu'),
+
+    # *FIXME*: Verify if this is possible for used distro
+    router_delete_namespaces    => true,
   }
 
   class { '::neutron::agents::dhcp':
