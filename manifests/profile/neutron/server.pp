@@ -20,7 +20,7 @@ class openstack::profile::neutron::server {
   }
 
   # Quantum quota setup
-  quantum_config {
+  neutron_config {
 
     'QUOTAS/quota_driver':              value => 'quantum.db.quota_db.DbQuotaDriver';
     'QUOTAS/quota_items':               value => 'network,subnet,port';
