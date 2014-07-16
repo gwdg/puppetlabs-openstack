@@ -15,11 +15,13 @@ class openstack::profile::keystone {
   }
 
   # Keystone LDAP setup
-  if ( hiera('openstack::keyston::ldap') == true ) {
+  if ( hiera('openstack::keystone::ldap') == true ) {
+
+    $ldap_address_management = hiera('openstack::ldap::address::management')
 
     class { 'keystone::ldap':
 
-      url            => "ldap://${hiera('openstack::ldap::address::management')}",
+      url            => "ldap://${ldap_address_management}",
       user           => 'cn=admin,dc=computecloud,dc=gwdg,dc=de',
       password       => 'test',
       suffix         => 'dc=computecloud,dc=gwdg,dc=de',
