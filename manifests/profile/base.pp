@@ -1,5 +1,6 @@
 # The base profile for OpenStack. Installs the repository and ntp
 class openstack::profile::base {
+
   # everyone also needs to be on the same clock
   class { '::ntp': 
     servers => hiera('host::ntp::servers')
@@ -7,6 +8,14 @@ class openstack::profile::base {
 
   # all nodes need the OpenStack repository
   class { '::openstack::resources::repo': }
+
+  # Setup apt-cacher-ng (only for vagrant for now)
+  if (! hiera('openstack::production')) {
+    class {'apt':
+      proxy_host => 'puppetmaster.cloud.gwdg.de',
+      proxy_port => '3142',
+    }
+  }
 
   # database connectors
   class { '::openstack::resources::connectors': }
