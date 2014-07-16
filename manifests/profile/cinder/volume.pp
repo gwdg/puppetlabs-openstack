@@ -7,10 +7,10 @@ class openstack::profile::cinder::volume {
 
   include ::openstack::common::cinder
 
-  class { '::cinder::setup_test_volume':
-    volume_name => 'cinder-volumes',
-    size        => hiera('openstack::cinder::volume_size')
-  } ->
+#  class { '::cinder::setup_test_volume':
+#    volume_name => 'cinder-volumes',
+#    size        => hiera('openstack::cinder::volume_size')
+#  } ->
 
   class { '::cinder::volume':
     package_ensure => true,
