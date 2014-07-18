@@ -10,11 +10,11 @@ class openstack::profile::base {
   class { '::openstack::resources::repo': }
 
   # Setup apt-cacher-ng (only for vagrant for now)
-  if (! hiera('openstack::production')) {
+  if ! hiera('openstack::production') {
     class {'apt':
       proxy_host => 'puppetmaster.cloud.gwdg.de',
       proxy_port => '3142',
-    }
+    } -> Package<||>
   }
 
   # database connectors
