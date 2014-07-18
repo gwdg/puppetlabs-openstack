@@ -25,7 +25,7 @@ class openstack::profile::nova::compute {
   }
 
   class { '::nova::compute::libvirt':
-    if (hiera('openstack::production')) {
+    if hiera('openstack::production') {
        libvirt_type     => 'kvm',
      } else {
        libvirt_type     => 'qvm',
@@ -36,7 +36,7 @@ class openstack::profile::nova::compute {
   }
 
   # Use NFS for VM storage (to be replaced by cinder)
-  if (hiera('openstack::production')) {
+  if hiera('openstack::production') {
 
     nfs::client::mount { '/var/lib/nova/instances':
       ensure    => 'mounted',
