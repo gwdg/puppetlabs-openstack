@@ -2,12 +2,17 @@
 class openstack::profile::neutron::server {
   openstack::resources::controller { 'neutron': }
   openstack::resources::database { 'neutron': } 
-  openstack::resources::firewall { 'Neutron API': port => '9696', }
+
+  openstack::resources::firewall { 'Neutron API':
+    source_net  => hiera('openstack::network::management'),
+    target_net  => hiera('openstack::network::management'),
+    port        => '9696', 
+  }
 
   include ::openstack::common::neutron
 
   # Try to make due without ovs stuff on the controller node
-#  include ::openstack::common::ovs
+  include ::openstack::common::ovs
 
   # Server def. from ::openstack::common::neutron
   class { '::neutron::server':

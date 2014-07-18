@@ -3,7 +3,12 @@ class openstack::profile::keystone {
 
   openstack::resources::controller { 'keystone': }
   openstack::resources::database { 'keystone': }
-  openstack::resources::firewall { 'Keystone API': port => '5000', }
+
+  openstack::resources::firewall { 'Keystone API': 
+    source_net  => hiera('openstack::network::management'),
+    target_net  => hiera('openstack::network::management'),
+    port        => '5000', 
+  }
 
   include ::openstack::common::keystone
 

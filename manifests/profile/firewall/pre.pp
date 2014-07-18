@@ -46,4 +46,14 @@ class openstack::profile::firewall::pre {
     port   => 22,
     before => [ Firewall['8999 - Accept all management network traffic'] ],
   }
+
+  # Make sure we also have full access from IP behind the hostname (i.e. provisioning network)
+  if ! hiera('openstack::production') {
+    firewall { '0004 - virtualbox hostname':
+      proto  => 'all',
+      action => 'accept',
+      source => ip_for_network('10.1.254.0/24'),
+      before => [ Class['::firewall'] ],
+    } 
+  }
 }

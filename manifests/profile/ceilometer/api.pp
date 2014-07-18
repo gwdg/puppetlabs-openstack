@@ -5,7 +5,9 @@ class openstack::profile::ceilometer::api {
   openstack::resources::controller { 'ceilometer': }
 
   openstack::resources::firewall { 'Ceilometer API':
-    port => '8777',
+    source_net  => hiera('openstack::network::management'),
+    target_net  => hiera('openstack::network::management'),
+    port        => '8777',
   }
 
   class { '::ceilometer::keystone::auth':

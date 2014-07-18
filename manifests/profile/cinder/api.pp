@@ -3,7 +3,12 @@ class openstack::profile::cinder::api {
 
   openstack::resources::controller { 'cinder': }
   openstack::resources::database { 'cinder': }
-  openstack::resources::firewall { 'Cinder API': port => '8776', }
+
+  openstack::resources::firewall { 'Cinder API':
+    source_net  => hiera('openstack::network::management'),
+    target_net  => hiera('openstack::network::management'),
+    port        => '8776', 
+  }
 
   class { '::cinder::keystone::auth':
     password         => hiera('openstack::cinder::password'),

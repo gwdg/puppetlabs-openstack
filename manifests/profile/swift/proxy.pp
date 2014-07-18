@@ -2,7 +2,12 @@
 class openstack::profile::swift::proxy {
 
   openstack::resources::controller { 'swift': }
-  openstack::resources::firewall { 'Swift Proxy': port => '8080', }
+
+  openstack::resources::firewall { 'Swift Proxy': 
+    source_net  => '0.0.0.0/32',
+    target_net  => hiera('openstack::network::external'),
+    port        => '8080', 
+  }
 
   class { 'swift::keystone::auth':
     password         => hiera('openstack::swift::password'),

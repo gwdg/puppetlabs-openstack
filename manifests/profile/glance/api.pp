@@ -29,8 +29,17 @@ class openstack::profile::glance::api {
     Please correct this difference.")
   }
 
-  openstack::resources::firewall { 'Glance API': port      => '9292', }
-  openstack::resources::firewall { 'Glance Registry': port => '9191', }
+  openstack::resources::firewall { 'Glance API':
+    source_net  => hiera('openstack::network::management'),
+    target_net  => hiera('openstack::network::management'),
+    port        => '9292', 
+  }
+
+  openstack::resources::firewall { 'Glance Registry': 
+    source_net  => hiera('openstack::network::management'),
+    target_net  => hiera('openstack::network::management'),
+    port        => '9191',
+  }
 
   include ::openstack::common::glance
 

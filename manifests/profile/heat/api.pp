@@ -2,8 +2,18 @@
 class openstack::profile::heat::api {
   openstack::resources::controller { 'heat': }
   openstack::resources::database { 'heat': }
-  openstack::resources::firewall { 'Heat API': port     => '8004', }
-  openstack::resources::firewall { 'Heat CFN API': port => '8000', }
+
+  openstack::resources::firewall { 'Heat API':
+    source_net  => hiera('openstack::network::management'),
+    target_net  => hiera('openstack::network::management'),
+    port        => '8004',
+  }
+
+  openstack::resources::firewall { 'Heat CFN API':
+    source_net  => hiera('openstack::network::management'),
+    target_net  => hiera('openstack::network::management'),
+    port        => '8000',
+  }
 
   $controller_management_address = hiera('openstack::controller::address::management')
 
