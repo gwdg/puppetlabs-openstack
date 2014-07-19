@@ -2,7 +2,7 @@
 class openstack::profile::cinder::api {
 
   openstack::resources::controller { 'cinder': }
-  openstack::resources::database { 'cinder': }
+#  openstack::resources::database { 'cinder': }
 
   openstack::resources::firewall { 'Cinder API':
     source_net  => hiera('openstack::network::management'),

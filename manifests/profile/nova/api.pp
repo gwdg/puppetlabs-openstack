@@ -2,7 +2,7 @@
 class openstack::profile::nova::api {
 
   openstack::resources::controller { 'nova': }
-  openstack::resources::database { 'nova': }
+#  openstack::resources::database { 'nova': }
 
   $management_network = hiera('openstack::network::management')
   $management_address = ip_for_network($management_network)

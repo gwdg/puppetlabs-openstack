@@ -3,7 +3,7 @@ class openstack::profile::neutron::server {
 
   # Run the neutron server on the network node
 #  openstack::resources::controller { 'neutron': }
-  openstack::resources::database { 'neutron': } 
+#  openstack::resources::database { 'neutron': } 
 
   openstack::resources::firewall { 'Neutron API':
     source_net  => hiera('openstack::network::management'),
@@ -11,7 +11,7 @@ class openstack::profile::neutron::server {
     port        => '9696', 
   }
 
-#  include ::openstack::common::neutron
+  include ::openstack::common::neutron
 #  include ::openstack::common::ovs
 
   # Server def. from ::openstack::common::neutron
@@ -22,7 +22,7 @@ class openstack::profile::neutron::server {
 #    enabled             => $::openstack::profile::base::is_controller,
 #    sync_db             => $::openstack::profile::base::is_controller,
     enabled             => true,
-    sync_db             => true,
+    sync_db             => false,
 
     mysql_module        => '2.2',
   }
@@ -47,5 +47,5 @@ class openstack::profile::neutron::server {
     'QUOTAS/quota_security_group_rule': value => '50';
   }
 
-  Class['::neutron::db::mysql'] -> Exec['neutron-db-sync']
+#  Class['::neutron::db::mysql'] -> Exec['neutron-db-sync']
 }

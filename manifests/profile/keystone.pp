@@ -2,7 +2,7 @@
 class openstack::profile::keystone {
 
   openstack::resources::controller { 'keystone': }
-  openstack::resources::database { 'keystone': }
+#  openstack::resources::database { 'keystone': }
 
   openstack::resources::firewall { 'Keystone API': 
     source_net  => hiera('openstack::network::management'),
@@ -20,7 +20,7 @@ class openstack::profile::keystone {
   }
 
   # Keystone LDAP setup
-  if ( hiera('openstack::keystone::ldap') == true ) {
+  if hiera('openstack::keystone::ldap') {
 
     $ldap_address_management = hiera('openstack::ldap::address::management')
 

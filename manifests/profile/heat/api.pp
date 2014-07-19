@@ -1,7 +1,7 @@
 # The profile for installing the heat API
 class openstack::profile::heat::api {
   openstack::resources::controller { 'heat': }
-  openstack::resources::database { 'heat': }
+#  openstack::resources::database { 'heat': }
 
   openstack::resources::firewall { 'Heat API':
     source_net  => hiera('openstack::network::management'),

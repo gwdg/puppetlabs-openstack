@@ -28,6 +28,14 @@ class openstack::profile::mysql {
     ruby_enable   => true,
   }
 
+  # Create all databases
+  openstack::resources::database { 'neutron': }
+  openstack::resources::database { 'glance': }
+  openstack::resources::database { 'keystone': }
+  openstack::resources::database { 'heat': }
+  openstack::resources::database { 'nova': }
+  openstack::resources::database { 'cinder': }
+
   Service['mysqld'] -> Anchor['database-service']
 
   class { 'mysql::server::account_security': }
