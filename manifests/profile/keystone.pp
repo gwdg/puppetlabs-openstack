@@ -18,8 +18,8 @@ class openstack::profile::keystone {
 #    $admin_bind_host = hiera('openstack::controller::address::management')
 #  }
 
-  $bind_host = hiera('openstack::controller::address::management')
-  $admin_port = '35357'
+  $bind_host    = hiera('openstack::controller::address::management')
+  $admin_port   = hiera('openstack::keystone::admin_port')
 
   class { '::keystone':
     admin_token         => hiera('openstack::keystone::admin_token'),
@@ -31,6 +31,7 @@ class openstack::profile::keystone {
     public_bind_host    => $bind_host,
     admin_port          => $admin_port,
     admin_endpoint      => "http://${bind_host}:${admin_port}/v2.0/",
+    token_expiration    => hiera('openstack::keystone::token_expiration'),
     mysql_module        => '2.2',
   }
 
