@@ -10,7 +10,7 @@ class openstack::common::neutron {
   $data_address = ip_for_network($data_network)
 
   # neutron auth depends upon a keystone configuration
-  include ::openstack::common::keystone
+#  include ::openstack::common::keystone
 
   class { '::neutron':
     rabbit_host           => $controller_management_address,
@@ -26,13 +26,13 @@ class openstack::common::neutron {
                               'neutron.services.metering.metering_plugin.MeteringPlugin'],
   }
 
-  class { '::neutron::keystone::auth':
-    password         => hiera('openstack::neutron::password'),
-    public_address   => hiera('openstack::controller::address::api'),
-    admin_address    => hiera('openstack::controller::address::management'),
-    internal_address => hiera('openstack::controller::address::management'),
-    region           => hiera('openstack::region'),
-  }
+#  class { '::neutron::keystone::auth':
+#    password         => hiera('openstack::neutron::password'),
+#    public_address   => hiera('openstack::controller::address::api'),
+#    admin_address    => hiera('openstack::controller::address::management'),
+#    internal_address => hiera('openstack::controller::address::management'),
+#    region           => hiera('openstack::region'),
+#  }
 
   # Should only be needed for quantum server on controller node
 #  class { '::neutron::server':

@@ -10,13 +10,13 @@ class openstack::profile::ceilometer::api {
     port        => '8777',
   }
 
-  class { '::ceilometer::keystone::auth':
-    password         => hiera('openstack::ceilometer::password'),
-    public_address   => hiera('openstack::controller::address::api'),
-    admin_address    => hiera('openstack::controller::address::management'),
-    internal_address => hiera('openstack::controller::address::management'),
-    region           => hiera('openstack::region'),
-  }
+#  class { '::ceilometer::keystone::auth':
+#    password         => hiera('openstack::ceilometer::password'),
+#    public_address   => hiera('openstack::controller::address::api'),
+#    admin_address    => hiera('openstack::controller::address::management'),
+#    internal_address => hiera('openstack::controller::address::management'),
+#    region           => hiera('openstack::region'),
+#  }
 
   class { '::ceilometer::agent::central':
   }

@@ -17,21 +17,21 @@ class openstack::profile::heat::api {
 
   $controller_management_address = hiera('openstack::controller::address::management')
 
-  class { '::heat::keystone::auth':
-    password         => hiera('openstack::heat::password'),
-    public_address   => hiera('openstack::controller::address::api'),
-    admin_address    => hiera('openstack::controller::address::management'),
-    internal_address => hiera('openstack::controller::address::management'),
-    region           => hiera('openstack::region'),
-  }
+#  class { '::heat::keystone::auth':
+#    password         => hiera('openstack::heat::password'),
+#    public_address   => hiera('openstack::controller::address::api'),
+#    admin_address    => hiera('openstack::controller::address::management'),
+#    internal_address => hiera('openstack::controller::address::management'),
+#    region           => hiera('openstack::region'),
+#  }
 
-  class { '::heat::keystone::auth_cfn': 
-    password         => hiera('openstack::heat::password'),
-    public_address   => hiera('openstack::controller::address::api'),
-    admin_address    => hiera('openstack::controller::address::management'),
-    internal_address => hiera('openstack::controller::address::management'),
-    region           => hiera('openstack::region'),
-  }
+#  class { '::heat::keystone::auth_cfn': 
+#    password         => hiera('openstack::heat::password'),
+#    public_address   => hiera('openstack::controller::address::api'),
+#    admin_address    => hiera('openstack::controller::address::management'),
+#    internal_address => hiera('openstack::controller::address::management'),
+#    region           => hiera('openstack::region'),
+#  }
 
   class { '::heat':
     sql_connection    => $::openstack::resources::connectors::heat,

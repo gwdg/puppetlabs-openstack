@@ -10,13 +10,13 @@ class openstack::profile::cinder::api {
     port        => '8776', 
   }
 
-  class { '::cinder::keystone::auth':
-    password         => hiera('openstack::cinder::password'),
-    public_address   => hiera('openstack::controller::address::api'),
-    admin_address    => hiera('openstack::controller::address::management'),
-    internal_address => hiera('openstack::controller::address::management'),
-    region           => hiera('openstack::region'),
-  }
+#  class { '::cinder::keystone::auth':
+#    password         => hiera('openstack::cinder::password'),
+#    public_address   => hiera('openstack::controller::address::api'),
+#    admin_address    => hiera('openstack::controller::address::management'),
+#    internal_address => hiera('openstack::controller::address::management'),
+#    region           => hiera('openstack::region'),
+#  }
 
   include ::openstack::common::cinder
 

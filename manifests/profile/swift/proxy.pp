@@ -9,13 +9,13 @@ class openstack::profile::swift::proxy {
     port        => '8080', 
   }
 
-  class { 'swift::keystone::auth':
-    password         => hiera('openstack::swift::password'),
-    public_address   => hiera('openstack::controller::address::api'),
-    admin_address    => hiera('openstack::controller::address::management'),
-    internal_address => hiera('openstack::controller::address::management'),
-    region           => hiera('openstack::region'),
-  }
+#  class { 'swift::keystone::auth':
+#    password         => hiera('openstack::swift::password'),
+#    public_address   => hiera('openstack::controller::address::api'),
+#    admin_address    => hiera('openstack::controller::address::management'),
+#    internal_address => hiera('openstack::controller::address::management'),
+#    region           => hiera('openstack::region'),
+#  }
 
   class { '::swift':
     swift_hash_suffix => hiera('openstack::swift::hash_suffix'),

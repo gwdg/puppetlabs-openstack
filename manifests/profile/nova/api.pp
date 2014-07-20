@@ -46,14 +46,14 @@ class openstack::profile::nova::api {
 
 #  openstack::resources::firewall { 'Nova S3':       port => '3333', }
 
-  class { '::nova::keystone::auth':
-    password            => hiera('openstack::nova::password'),
-    public_address      => hiera('openstack::controller::address::api'),
-    admin_address       => hiera('openstack::controller::address::management'),
-    internal_address    => hiera('openstack::controller::address::management'),
-    region              => hiera('openstack::region'),
-    cinder              => true,
-  }
+#  class { '::nova::keystone::auth':
+#    password            => hiera('openstack::nova::password'),
+#    public_address      => hiera('openstack::controller::address::api'),
+#    admin_address       => hiera('openstack::controller::address::management'),
+#    internal_address    => hiera('openstack::controller::address::management'),
+#    region              => hiera('openstack::region'),
+#    cinder              => true,
+#  }
 
   class { '::nova':
     sql_connection      => $::openstack::resources::connectors::nova,
@@ -64,6 +64,7 @@ class openstack::profile::nova::api {
     rabbit_password     => hiera('openstack::rabbitmq::password'),
     debug               => hiera('openstack::debug'),
     verbose             => hiera('openstack::verbose'),
+    install_utilities   => false,
     mysql_module        => '2.2',
   }
 
@@ -82,7 +83,7 @@ class openstack::profile::nova::api {
 
   class { [
     'nova::scheduler',
-    'nova::objectstore',
+#    'nova::objectstore',
     'nova::cert',
     'nova::consoleauth',
     'nova::conductor'
