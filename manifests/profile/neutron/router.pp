@@ -46,6 +46,10 @@ class openstack::profile::neutron::router {
     auth_region                 => hiera('openstack::region'),
     metadata_ip                 => $controller_management_address,
     enabled                     => true,
+
+    # This is Icehouse+
+    metadata_workers            => hiera('openstack::neutron::metadata_agent::workers'),
+    metadata_backlog            => hiera('openstack::neutron::metadata_agent::backlog'),
   }
 
   class { '::neutron::agents::lbaas':
