@@ -26,6 +26,7 @@ class openstack::profile::neutron::server {
 
     mysql_module        => '2.2',
     api_workers         => hiera('openstack::neutron::server::workers'),
+    agent_down_time     => hiera('openstack::neutron::server::agent_down_time'),
   }
 
   # Additional neutron options
