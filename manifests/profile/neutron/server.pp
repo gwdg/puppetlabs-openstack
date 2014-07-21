@@ -25,6 +25,13 @@ class openstack::profile::neutron::server {
     sync_db             => false,
 
     mysql_module        => '2.2',
+    api_workers         => hiera('openstack::neutron::server::workers'),
+  }
+
+  # Additional neutron options
+  neutron_config {
+    # This may be Icehouse+
+    'DEFAULT/rpc_workers':              value => hiera('openstack::neutron::server::workers');
   }
 
   # Quantum quota setup
