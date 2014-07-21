@@ -1,7 +1,7 @@
 # Common class for ceilometer installation
 # Private, and should not be used on its own
 class openstack::common::ceilometer {
-  $is_controller = $::openstack::profile::base::is_controller
+#  $is_controller = $::openstack::profile::base::is_controller
 
   $controller_management_address = hiera('openstack::controller::address::management')
 
@@ -19,7 +19,8 @@ class openstack::common::ceilometer {
   }
 
   class { '::ceilometer::api':
-    enabled           => $is_controller,
+#    enabled           => $is_controller,
+    enabled           => true,
     keystone_host     => $controller_management_address,
     keystone_password => hiera('openstack::ceilometer::password'),
   }
