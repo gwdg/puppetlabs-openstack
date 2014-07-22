@@ -47,13 +47,34 @@ class openstack::profile::firewall::pre {
     before => [ Firewall['8999 - Accept all management network traffic'] ],
   }
 
-  # Make sure we also have full access from IP behind the hostname (i.e. provisioning network)
   if ! hiera('openstack::production') {
+
+    # Make sure we also have full access from IP behind the hostname (i.e. from provisioning network) as it is used locally as source address (e.g. for rabbitmq control)
     firewall { '0004 - virtualbox hostname':
-      proto  => 'all',
-      action => 'accept',
-      source => ip_for_network('10.1.254.0/24'),
-      before => [ Class['::firewall'] ],
-    } 
+      proto     => 'all',
+      action    => 'accept',
+      source    => ip_for_network(hiera('openstack::network::provisioning')),
+      before    => [ Class['::firewall'] ],
+    }
+
+    # Accept all traffic from virtualbox gateway as it is used for nat
+    firewall { '0005 - virtualbox gateway':
+      proto     => 'all',
+      action    => 'accept',
+      source    => hiera('vagrant::gateway::address'),
+      before    => [ Class['::firewall'] ],
+    }
+
+    # Do DNAT, so that networks match with production infrastructure
+    firewall { '0006 - virtualbox dnat':
+      proto     => 'all',
+      table     => 'nat',
+      chain     => 'PREROUTING',
+      source    => hiera('vagrant::gateway::address'),
+      todest    => ip_for_network(hiera('openstack::network::management')),
+      jump      => 'DNAT',
+      before    => [ Class['::firewall'] ],
+    }
+
   }
 }
