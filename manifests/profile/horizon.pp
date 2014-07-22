@@ -1,8 +1,15 @@
 # Profile to install the horizon web service
 class openstack::profile::horizon {
 
+  if hiera('openstack::production') {
+    $fqdn = [ '127.0.0.1', hiera('openstack::controller::address::api'), $::fqdn ]
+  } else {
+    # Add vagrant host IP so NAT to horizon works
+    $fqdn = [ '127.0.0.1', hiera('openstack::controller::address::api'), $::fqdn, hiera('vagrant::host::address') ]
+  }
+
   class { '::horizon':
-    fqdn            => [ '127.0.0.1', hiera('openstack::controller::address::api'), $::fqdn ],
+    fqdn            => [ '127.0.0.1', hiera('openstack::controller::address::api'), $::fqdn, hiera('vagrant::host::address') ],
     secret_key      => hiera('openstack::horizon::secret_key'),
     cache_server_ip => hiera('openstack::controller::address::management'),
   }
