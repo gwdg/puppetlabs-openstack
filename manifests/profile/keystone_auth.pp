@@ -12,9 +12,9 @@ class openstack::profile::keystone_auth {
 
   class { '::neutron::keystone::auth':
     password         => hiera('openstack::neutron::password'),
-    public_address   => hiera('openstack::controller::address::api'),
-    admin_address    => hiera('openstack::controller::address::management'),
-    internal_address => hiera('openstack::controller::address::management'),
+    public_address   => hiera('openstack::network::address::api'),
+    admin_address    => hiera('openstack::network::address::management'),
+    internal_address => hiera('openstack::network::address::management'),
     region           => hiera('openstack::region'),
   }
 
