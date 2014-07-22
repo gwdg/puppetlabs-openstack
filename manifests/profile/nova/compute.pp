@@ -54,13 +54,14 @@ class openstack::profile::nova::compute {
     neutron_url            => "http://${controller_management_address}:9696",
   }
 
+  if hiera('openstack::production') {
+    $libvirt_type = 'kvm'
+  } else {
+    $libvirt_type = 'qemu'
+  }
+
   class { '::nova::compute::libvirt':
-    if hiera('openstack::production') {
-       libvirt_type     => 'kvm',
-     } else {
-       libvirt_type     => 'qvm',
-    }
-    libvirt_type        => hiera('openstack::nova::libvirt_type'),
+    libvirt_type        => $libvirt_type,
     vncserver_listen    => hiera('openstack::nova::vncserver_listen'),
     migration_support   => true,
   }
