@@ -74,9 +74,4 @@ class openstack::profile::keystone {
 #    subscribe           => Exec['keystone-manage db_sync'],
 #  }
 
-  # Setup tenants / users
-  $tenants = hiera('openstack::tenants')
-  $users = hiera('openstack::users')
-  create_resources('openstack::resources::tenant', $tenants)
-  create_resources('openstack::resources::user', $users)
 }
