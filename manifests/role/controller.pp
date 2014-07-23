@@ -18,4 +18,6 @@ class openstack::role::controller inherits ::openstack::role {
   # Ratelimits (see http://docs.openstack.org/grizzly/openstack-compute/admin/content/configuring-compute-API.html for defaults)
   nova_paste_api_ini    { 'filter:ratelimit/limits':    value => '(POST, "*", .*, 1000, MINUTE);(POST, "*/servers", ^/servers, 500, DAY);(PUT, "*", .*, 1000, MINUTE);(GET, "*changes-since*", .*changes-since.*, 300, MINUTE);(DELETE, "*", .*, 1000, MINUTE)'; }
 
+  # Install neutron client
+  class { '::neutron::client': }
 }
