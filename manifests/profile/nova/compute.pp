@@ -25,15 +25,17 @@ class openstack::profile::nova::compute {
   nova_config { 'DEFAULT/libvirt_inject_password':              value => true }
 
   class { '::nova':
-    sql_connection     => $::openstack::resources::connectors::nova,
-    glance_api_servers => "http://${storage_management_address}:9292",
-    memcached_servers  => ["${controller_management_address}:11211"],
-    rabbit_hosts       => [$controller_management_address],
-    rabbit_userid      => hiera('openstack::rabbitmq::user'),
-    rabbit_password    => hiera('openstack::rabbitmq::password'),
-    debug              => hiera('openstack::debug'),
-    verbose            => hiera('openstack::verbose'),
-    mysql_module       => '2.2',
+    sql_connection      => $::openstack::resources::connectors::nova,
+    glance_api_servers  => "http://${storage_management_address}:9292",
+    memcached_servers   => ["${controller_management_address}:11211"],
+    rabbit_hosts        => [$controller_management_address],
+    rabbit_userid       => hiera('openstack::rabbitmq::user'),
+    rabbit_password     => hiera('openstack::rabbitmq::password'),
+    debug               => hiera('openstack::debug'),
+    verbose             => hiera('openstack::verbose'),
+    mysql_module        => '2.2',
+    # Handled by ceilometer::agent::compute class
+#    notification_driver => ['nova.openstack.common.notifier.rpc_notifier', 'ceilometer.compute.nova_notifier'],
   }
 
   # TODO: it's important to set up the vnc properly
@@ -85,14 +87,13 @@ class openstack::profile::nova::compute {
     }
   }
 
-  # Not sure if this is necessary
-#  file { '/etc/libvirt/qemu.conf':
-#    ensure => present,
-#    source => 'puppet:///modules/openstack/qemu.conf',
-#    mode   => '0644',
-#    notify => Service['libvirt'],
-#  }
+  file { '/etc/libvirt/qemu.conf':
+    ensure => present,
+    source => 'puppet:///modules/openstack/qemu.conf',
+    mode   => '0644',
+    notify => Service['libvirt'],
+  }
 
-#  Package['libvirt'] -> File['/etc/libvirt/qemu.conf']
+  Package['libvirt'] -> File['/etc/libvirt/qemu.conf']
 }
 
