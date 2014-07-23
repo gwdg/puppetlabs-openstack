@@ -67,6 +67,7 @@ class openstack::profile::nova::api {
     verbose             => hiera('openstack::verbose'),
     install_utilities   => false,
     mysql_module        => '2.2',
+#    notification_driver => 'nova.openstack.common.notifier.rpc_notifier',
   }
 
   class { '::nova::api':
