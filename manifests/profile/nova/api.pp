@@ -7,8 +7,9 @@ class openstack::profile::nova::api {
   $management_network = hiera('openstack::network::management')
   $management_address = ip_for_network($management_network)
 
-  $storage_management_address = hiera('openstack::storage::address::management')
-  $controller_management_address = hiera('openstack::controller::address::management')
+  $storage_management_address       = hiera('openstack::storage::address::management')
+  $controller_management_address    = hiera('openstack::controller::address::management')
+  $network_management_address       = hiera('openstack::network::address::management')
 
   # ------ Additional options for nova ------
 
@@ -99,7 +100,7 @@ class openstack::profile::nova::api {
     neutron_admin_password => hiera('openstack::neutron::password'),
     neutron_region_name    => hiera('openstack::region'),
     neutron_admin_auth_url => "http://${controller_management_address}:35357/v2.0",
-    neutron_url            => "http://${controller_management_address}:9696",
+    neutron_url            => "http://${network_management_address}:9696",
   }
 
 }
