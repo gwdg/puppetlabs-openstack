@@ -2,10 +2,11 @@
 class openstack::profile::firewall::post {
 
   firewall { '8999 - Accept all management network traffic':
-    proto  => 'all',
-    state  => ['NEW'],
-    action => 'accept',
-    source => hiera('openstack::network::management'),
+    proto       => 'all',
+    state       => ['NEW'],
+    action      => 'accept',
+    source      => hiera('openstack::network::management'),
+    destination => ip_for_network(hiera('openstack::network::management')),
   } ->
 
   # Log all rejected traffic
