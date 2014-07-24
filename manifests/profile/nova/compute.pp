@@ -47,7 +47,7 @@ class openstack::profile::nova::compute {
   }
 
   class { '::nova::compute::neutron':
-#    libvirt_vif_driver => 'nova.virt.libvirt.vif.LibvirtHybridOVSBridgeDriver',
+    libvirt_vif_driver => 'nova.virt.libvirt.vif.LibvirtGenericVIFDriver',
   }
 
   class { '::nova::network::neutron':
