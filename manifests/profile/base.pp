@@ -3,7 +3,9 @@ class openstack::profile::base {
 
   # everyone also needs to be on the same clock
   class { '::ntp': 
-    servers => hiera('host::ntp::servers')
+    servers     => hiera('host::ntp::servers'),
+    restrict    => ['127.0.0.1'],
+    interfaces  => ['127.0.0.1', ip_for_network(hiera('openstack::network::management'))],
   }
 
   # all nodes need the OpenStack repository
