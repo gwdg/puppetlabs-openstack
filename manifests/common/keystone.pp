@@ -1,11 +1,5 @@
 class openstack::common::keystone {
 
-#  if $::openstack::profile::base::is_controller {
-#    $admin_bind_host = '0.0.0.0'
-#  } else {
-#    $admin_bind_host = hiera('openstack::controller::address::management')
-#  }
-
   $bind_host    = hiera('openstack::controller::address::management')
   $admin_port   = hiera('openstack::keystone::admin_port')
 
@@ -14,7 +8,6 @@ class openstack::common::keystone {
     sql_connection      => $::openstack::resources::connectors::keystone,
     verbose             => hiera('openstack::verbose'),
     debug               => hiera('openstack::debug'),
-#    enabled             => $::openstack::profile::base::is_controller,
     enabled             => true,
     admin_bind_host     => $bind_host,
     public_bind_host    => $bind_host,
