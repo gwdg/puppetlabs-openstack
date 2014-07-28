@@ -11,9 +11,9 @@ class openstack::profile::rabbitmq {
   }
 
   class { '::nova::rabbitmq':
-    userid          => hiera('openstack::rabbitmq::user'),
-    password        => hiera('openstack::rabbitmq::password'),
-    cluster_nodes   => [$management_address],
-    rabbitmq_class  => '::rabbitmq',
+    userid             => hiera('openstack::rabbitmq::user'),
+    password           => hiera('openstack::rabbitmq::password'),
+    cluster_disk_nodes => [$management_address],
+    rabbitmq_class     => '::rabbitmq',
   }
 }
