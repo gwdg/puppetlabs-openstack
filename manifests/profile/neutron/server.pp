@@ -1,10 +1,6 @@
 # The profile to set up the neutron server
 class openstack::profile::neutron::server {
 
-  # Run the neutron server on the network node
-#  openstack::resources::controller { 'neutron': }
-#  openstack::resources::database { 'neutron': } 
-
   openstack::resources::firewall { 'Neutron API':
     source_net  => hiera('openstack::network::management'),
     target_net  => hiera('openstack::network::management'),
@@ -12,15 +8,12 @@ class openstack::profile::neutron::server {
   }
 
   include ::openstack::common::neutron
-#  include ::openstack::common::ovs
 
   # Server def. from ::openstack::common::neutron
   class { '::neutron::server':
     auth_host           => hiera('openstack::controller::address::management'),
     auth_password       => hiera('openstack::neutron::password'),
     database_connection => $::openstack::resources::connectors::neutron,
-#    enabled             => $::openstack::profile::base::is_controller,
-#    sync_db             => $::openstack::profile::base::is_controller,
     enabled             => true,
     sync_db             => false,
 
