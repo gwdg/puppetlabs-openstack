@@ -1,22 +1,11 @@
 # The profile to install the Keystone service
 class openstack::profile::keystone {
 
-#  openstack::resources::controller { 'keystone': }
-#  openstack::resources::database { 'keystone': }
-
   openstack::resources::firewall { 'Keystone API': 
     source_net  => hiera('openstack::network::management'),
     target_net  => hiera('openstack::network::management'),
     port        => '5000', 
   }
-
-#  include ::openstack::common::keystone
-
-#  if $::openstack::profile::base::is_controller {
-#    $admin_bind_host = '0.0.0.0'
-#  } else {
-#    $admin_bind_host = hiera('openstack::controller::address::management')
-#  }
 
   $bind_host    = hiera('openstack::controller::address::management')
   $admin_port   = hiera('openstack::keystone::admin_port')
