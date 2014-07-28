@@ -9,9 +9,6 @@ class openstack::common::neutron {
   $data_network = hiera('openstack::network::data')
   $data_address = ip_for_network($data_network)
 
-  # neutron auth depends upon a keystone configuration
-#  include ::openstack::common::keystone
-
   class { '::neutron':
     rabbit_host           => $controller_management_address,
     core_plugin           => 'neutron.plugins.openvswitch.ovs_neutron_plugin.OVSNeutronPluginV2',
@@ -25,24 +22,6 @@ class openstack::common::neutron {
                               'neutron.services.firewall.fwaas_plugin.FirewallPlugin',
                               'neutron.services.metering.metering_plugin.MeteringPlugin'],
   }
-
-#  class { '::neutron::keystone::auth':
-#    password         => hiera('openstack::neutron::password'),
-#    public_address   => hiera('openstack::controller::address::api'),
-#    admin_address    => hiera('openstack::controller::address::management'),
-#    internal_address => hiera('openstack::controller::address::management'),
-#    region           => hiera('openstack::region'),
-#  }
-
-  # Should only be needed for quantum server on controller node
-#  class { '::neutron::server':
-#    auth_host           => hiera('openstack::controller::address::management'),
-#    auth_password       => hiera('openstack::neutron::password'),
-#    database_connection => $::openstack::resources::connectors::neutron,
-#    enabled             => $::openstack::profile::base::is_controller,
-#    sync_db             => $::openstack::profile::base::is_controller,
-#    mysql_module        => '2.2',
-#  }
 
   if $::osfamily == 'redhat' {
     package { 'iproute':
