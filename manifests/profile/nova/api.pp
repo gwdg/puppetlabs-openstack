@@ -2,7 +2,6 @@
 class openstack::profile::nova::api {
 
   openstack::resources::controller { 'nova': }
-#  openstack::resources::database { 'nova': }
 
   $management_network = hiera('openstack::network::management')
   $management_address = ip_for_network($management_network)
@@ -47,15 +46,6 @@ class openstack::profile::nova::api {
 
 #  openstack::resources::firewall { 'Nova S3':       port => '3333', }
 
-#  class { '::nova::keystone::auth':
-#    password            => hiera('openstack::nova::password'),
-#    public_address      => hiera('openstack::controller::address::api'),
-#    admin_address       => hiera('openstack::controller::address::management'),
-#    internal_address    => hiera('openstack::controller::address::management'),
-#    region              => hiera('openstack::region'),
-#    cinder              => true,
-#  }
-
   class { '::nova':
     sql_connection      => $::openstack::resources::connectors::nova,
     glance_api_servers  => "http://${storage_management_address}:9292",
@@ -78,7 +68,6 @@ class openstack::profile::nova::api {
   }
 
   class { '::nova::vncproxy':
-#    host                => hiera('openstack::controller::address::api'),
     host                => hiera('openstack::controller::address::vnc_proxy'),
     enabled             => true,
   }
