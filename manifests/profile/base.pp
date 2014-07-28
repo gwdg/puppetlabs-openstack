@@ -1,14 +1,24 @@
 # The base profile for OpenStack. Installs the repository and ntp
 class openstack::profile::base {
 
-  # everyone also needs to be on the same clock
+  # Everyone also needs to be on the same clock
   class { '::ntp': 
     servers     => hiera('host::ntp::servers'),
     restrict    => ['127.0.0.1'],
     interfaces  => ['127.0.0.1', ip_for_network(hiera('openstack::network::management'))],
   }
 
-  # all nodes need the OpenStack repository
+  # Disable NIC offloading (kill performance for OVS setup)
+  package { 'ethtool': }
+
+  exec { 'disable generic-receive-offload': 
+    command => 'ethtool --offload eth0 gro off',
+    path    => ['/usr/sbin', '/usr/bin', '/sbin', '/bin'],
+    onlyif  => 'test `ethtool --show-offload eth0 | grep generic-receive-offload | cut -d" " -f2` = on',
+    require => Package['ethtool'],
+  }  
+
+  # All nodes need the OpenStack repository
   class { '::openstack::resources::repo': }
 
   # Setup apt-cacher-ng (only for vagrant for now)
@@ -19,10 +29,10 @@ class openstack::profile::base {
     } -> Package<||>
   }
 
-  # database connectors
+  # Database connectors
   class { '::openstack::resources::connectors': }
 
-  # database anchor
+  # Database anchor
   anchor { 'database-service': }
 
   $management_network = hiera('openstack::network::management')
