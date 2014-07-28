@@ -7,7 +7,29 @@ class openstack::profile::tempest {
   $alt_user   = hiera('openstack::tempest::username_alt')
   $public_network_name = hiera('openstack::tempest::public_network_name')
 
-  include ::openstack::common::keystone
+  $bind_host    = hiera('openstack::controller::address::management')
+  $admin_port   = hiera('openstack::keystone::admin_port')
+
+  # Ex include ::openstack::common::keystone
+  class { '::keystone':
+    admin_token         => hiera('openstack::keystone::admin_token'),
+    sql_connection      => $::openstack::resources::connectors::keystone,
+    verbose             => hiera('openstack::verbose'),
+    debug               => hiera('openstack::debug'),
+    enabled             => true,
+    admin_bind_host     => $bind_host,
+    public_bind_host    => $bind_host,
+    admin_port          => $admin_port,
+    admin_endpoint      => "http://${bind_host}:${admin_port}/v2.0/",
+    mysql_module        => '2.2',
+  }
+
+  class { '::keystone::roles::admin':
+    email        => hiera('openstack::keystone::admin_email'),
+    password     => hiera('openstack::keystone::admin_password'),
+    admin_tenant => 'admin',
+  }
+
   include ::openstack::common::glance
   include ::openstack::common::neutron
 
