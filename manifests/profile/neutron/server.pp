@@ -1,6 +1,9 @@
 # The profile to set up the neutron server
 class openstack::profile::neutron::server {
 
+  $controller_address_management    = hiera('openstack::controller::address::management')
+  $keystone_admin_port              = hiera('openstack::keystone::admin_port')
+
   openstack::resources::firewall { 'Neutron API':
     source_net  => hiera('openstack::network::management'),
     target_net  => hiera('openstack::network::management'),
@@ -20,6 +23,20 @@ class openstack::profile::neutron::server {
     mysql_module        => '2.2',
     api_workers         => hiera('openstack::neutron::server::workers'),
     agent_down_time     => hiera('openstack::neutron::server::agent_down_time'),
+  }
+
+  # Setup vif plugin notifications for Nova
+  class { 'neutron::server::notifications':
+    notify_nova_on_port_status_changes => true,                                                 # Default
+    notify_nova_on_port_data_changes   => true,                                                 # Default
+    send_events_interval               => '2',                                                  # Default
+    nova_url                           => "http://${controller_address_management}:8774/v2",
+    nova_admin_auth_url                => "http://${controller_address_management}:${keystone_admin_port}/v2.0",
+    nova_admin_username                => 'nova',                                               # Default
+    nova_admin_tenant_name             => 'services',                                           # Default
+    nova_admin_tenant_id               => undef,
+    nova_admin_password                => hiera('openstack::nova::password'),
+    nova_region_name                   => hiera('openstack::region'),
   }
 
   # Additional neutron options
