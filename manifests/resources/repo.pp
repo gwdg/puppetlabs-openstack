@@ -10,7 +10,8 @@ class openstack::resources::repo(
       if $::osfamily == 'RedHat' {
         class {'openstack::resources::repo::rdo': release => $release }
         class {'openstack::resources::repo::erlang': }
-      } elsif $::osfamily == 'Debian' {
+      } elsif $::osfamily == 'Debian' and $::lsbdistcodename != 'trusty' {
+        # UCA not supported on Ubuntu 14.04 yet
         class {'openstack::resources::repo::uca': release => $release }
       }
     }
