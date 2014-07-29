@@ -1,6 +1,8 @@
 # Profile to install the horizon web service
 class openstack::profile::horizon {
 
+  $controller_address_management = hiera('openstack::controller::address::management')
+
   if hiera('openstack::production') {
     $fqdn = [ '127.0.0.1', hiera('openstack::controller::address::api'), $::fqdn ]
   } else {
@@ -12,6 +14,7 @@ class openstack::profile::horizon {
     fqdn            => $fqdn, 
     secret_key      => hiera('openstack::horizon::secret_key'),
     cache_server_ip => hiera('openstack::controller::address::management'),
+    keystone_url    => "http://${controller_address_management}:5000/v2.0",
   }
 
   openstack::resources::firewall { 'Apache (Horizon)':
