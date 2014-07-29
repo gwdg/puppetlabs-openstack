@@ -15,6 +15,7 @@ class openstack::profile::horizon {
     secret_key      => hiera('openstack::horizon::secret_key'),
     cache_server_ip => hiera('openstack::controller::address::management'),
     keystone_url    => "http://${controller_address_management}:5000/v2.0",
+    django_debug    => hiera('openstack::horizon::django_debug'),
   }
 
   openstack::resources::firewall { 'Apache (Horizon)':
