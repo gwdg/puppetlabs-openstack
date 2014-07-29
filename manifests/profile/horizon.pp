@@ -9,7 +9,7 @@ class openstack::profile::horizon {
   }
 
   class { '::horizon':
-    fqdn            => [ '127.0.0.1', hiera('openstack::controller::address::api'), $::fqdn, hiera('vagrant::host::address') ],
+    fqdn            => $fqdn, 
     secret_key      => hiera('openstack::horizon::secret_key'),
     cache_server_ip => hiera('openstack::controller::address::management'),
   }
