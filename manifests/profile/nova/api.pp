@@ -44,6 +44,12 @@ class openstack::profile::nova::api {
     port        => '8773', 
   }
 
+  openstack::resources::firewall { 'Nova NoVNC':
+    source_net  => hiera('openstack::network::management'),
+    target_net  => hiera('openstack::network::management'),
+    port        => '6080',
+  }
+
 #  openstack::resources::firewall { 'Nova S3':       port => '3333', }
 
   class { '::nova':
