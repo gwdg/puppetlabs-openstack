@@ -15,7 +15,7 @@ class openstack::common::ovs {
 
   class  { '::neutron::plugins::ml2':
     type_drivers            => hiera('openstack::neutron::type_drivers'),
-    tenant_network_types    => hiera('openstack::neutron::tenant_network_type'),
+    tenant_network_types    => hiera('openstack::neutron::tenant_network_types'),
     mechanism_drivers       => hiera('openstack::neutron::mechanism_drivers'),
     tunnel_id_ranges        => hiera('openstack::neutron::tunnel_id_ranges'),
   }
